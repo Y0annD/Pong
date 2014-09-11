@@ -1,0 +1,6 @@
+#include "SinglePlayer.h"
+
+SinglePlayer::SinglePlayer()
+{
+
+}
