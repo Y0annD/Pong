@@ -1,0 +1,76 @@
+
+#-- detect system-specific settings to ensure Linux/Windows portability --
+ifeq (${OS},Windows_NT)
+  EXE=.exe
+  PATH_SEP=\\
+  SKIP_LINE=echo.
+  REMOVE=del
+  #-- location where SFML header files and libraries are installed --
+  SFML_DIR=../../../SFML-2.1
+  #-- ensure Windows will find SFML dlls when using ``make run'' --
+  PATH+=;${subst /,${PATH_SEP},${SFML_DIR}}\bin
+  export PATH
+else
+  EXE=
+  PATH_SEP=/
+  SKIP_LINE=echo
+  REMOVE=rm -f
+  #-- location where SFML header files and libraries are installed --
+  SFML_DIR=/home/TP/modules/sujets/SFML-2.1
+endif
+
+#-- program name, sources and obj --
+TARGET=mainImage
+SRC=$(wildcard src/*.cpp)
+OBJ=$(SRC:.cpp=.o)
+
+#-- compiler/linker settings --
+CC=g++
+CCFLAGS=-Wall -Wextra -pedantic -g
+IFLAGS=-I./include -I${SFML_DIR}/include
+LDFLAGS=-L${SFML_DIR}/lib -Wl,-rpath,${SFML_DIR}/lib \
+        -lsfml-graphics -lsfml-window -lsfml-system
+
+#-- main target to obtain --
+all : $(TARGET)${EXE}
+
+#-- linker command to produce the executable file --
+$(TARGET)${EXE} : $(OBJ)
+	@echo Linking $@ ...
+	${CC} -o $@ $^ ${LDFLAGS}
+	@${SKIP_LINE}
+
+#-- source file dependencies --
+src/mainImage.o : src/mainImage.cpp \
+                  include/Image.h include/Pixel.h include/Window.h
+
+src/Image.o : src/Image.cpp \
+              include/Image.h include/Pixel.h
+
+src/Window.o : src/Window.cpp \
+               include/Window.h include/Image.h include/Pixel.h
+
+#-- compiler command for every source file --
+%.o : %.cpp
+	@echo Compiling $< ...
+	${CC} -o $@ $< -c ${CCFLAGS} ${IFLAGS}
+	@${SKIP_LINE}
+
+#-- list of files to be removed when cleaning --
+CLEAN_LIST=$(TARGET)${EXE} $(OBJ) *.ppm \
+           *.*~ *~ src/*.*~ src/*~ include/*.*~ include/*~
+
+#-- system-specific command to remove those files --
+clean :
+	@echo Cleaning...
+	${REMOVE} ${subst /,${PATH_SEP},${CLEAN_LIST}}
+	@${SKIP_LINE}
+
+#-- system-specific command to run the program --
+#   make run
+#   make run IMG=data/planete.ppm
+#   ./mainImage
+#   ./mainImage data/planete.ppm
+run : all
+	.${PATH_SEP}$(TARGET)${EXE} ${IMG}
+
