@@ -12,9 +12,8 @@
 * @param dx: décallage en x
 * @param dy: décallage en y
 **/
-void Circle::move(int dx, int dy){
- _x += dx;
- _y += dy;
+void Circle::move(){
+  _x++;
 }
 
 /**
@@ -22,7 +21,7 @@ void Circle::move(int dx, int dy){
  * @param win: pointeur vers la fenetre ou l'on doit afficher le cercle
  **/ 
 void Circle::draw(sf::RenderWindow *win) const {
-  sf::CircleShape shape(_radius);
+  sf::CircleShape shape(_width);
   int r,g,b;
   _color.getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));
