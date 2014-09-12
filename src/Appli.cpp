@@ -11,17 +11,26 @@
 #include "Circle.h"
 #include "Mur.h"
 
+int WIDTH, HEIGHT;
 /* Fonction principale du programme */
 int main(void) {
+  WIDTH = 800;
+  HEIGHT = 600;
   /* Création d'une fenetre de 800x600 avec un nom */
-  Window win("Circles and Rectangles", 800,600);
+  Window win("Circles and Rectangles", WIDTH,HEIGHT);
   
-  win.addMur(new Mur(100,100,100,50,0,1));
-  // créer 3 objets de type Rectangle et les ajouter Ã  la fenÃªtre
-  /* for(int i=0; i<3; i++){
-    win.addRect(new Rectangle(rand()%800,rand()%600,rand()%400,rand()%300));
-    win.addCircle(new Circle(rand()%800, rand()%600, rand()%100));
-    }*/
+  for(int i = 0; i< 5; i++){
+    win.addMur(new Mur(0,i*(HEIGHT/5),25,HEIGHT/5,0,1));
+  }
+for(int i = 0; i< 5; i++){
+    win.addMur(new Mur(WIDTH - 25,i*(HEIGHT/5),25,HEIGHT/5,0,1));
+  }
+for(int i = 0; i< 7; i++){
+  win.addMur(new Mur(((WIDTH - 50)/7)*i+25,0,WIDTH/7,25,0,1));
+ }
+for(int i = 0; i< 7; i++){
+  win.addMur(new Mur(((WIDTH - 50)/7)*i+25,HEIGHT - 25,WIDTH/7,25,0,1));
+  }
   /* Affichage de la fenetre */
   win.display();
 

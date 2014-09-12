@@ -2,6 +2,8 @@
 #define SHAPE
 #include "SFML/Graphics.hpp"
 #include "Color.h"
+#include <iostream>
+#include <string>
 
 class Shape{
  public:

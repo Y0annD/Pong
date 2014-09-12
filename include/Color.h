@@ -1,9 +1,12 @@
 #ifndef COLOR
 #define COLOR
-
+#include <iostream>
+#include <string>
 class Color {
   public :
-    Color(int r, int g, int b) : _red(r), _green(g), _blue(b) {}
+ Color(int r, int g, int b) : _red(r), _green(g), _blue(b) {
+    std::cout<<"created "<<std::endl;
+}
 
     void getRGB(int& r, int& g, int& b) const 
       { r=_red; g=_green; b=_blue; }
