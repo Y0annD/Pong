@@ -41,6 +41,12 @@ void Window::drawAll(sf::RenderWindow* win){
      _circs[i]->draw(win);
    }
   }
+
+  if( _murs.size()>0){
+   for(int i=0; i<(int)_murs.size(); i++){
+     _murs[i]->draw(win);
+   }
+  }
   
 }
 
@@ -70,6 +76,14 @@ void Window::addRect(Rectangle* rectangle){
  **/ 
 void Window::addCircle(Circle* circle){
   _circs.push_back(circle);
+}
+
+/**
+ * Méthode qui ajoute un mur
+ * @param mur: pointeur vers le mur à ajouter
+ **/
+void Window::addMur(Mur* mur){
+  _murs.push_back(mur);
 }
 
 /**

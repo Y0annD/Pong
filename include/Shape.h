@@ -1,12 +1,14 @@
 #ifndef SHAPE
 #define SHAPE
+#include "SFML/Graphics.hpp"
+#include "Color.h"
 
 class Shape{
  public:
- Shape(int x, int y, int width, int height, int orientation):_x(x), _y(y),
-    _width(width),_height(height), _orientation(orientation){}
+ Shape(int x, int y, int width, int height, int orientation, Color color):_x(x), _y(y),
+    _width(width),_height(height), _orientation(orientation), _color(color){}
 
-  virtual void draw()const{}
+  void draw(sf::RenderWindow *win) const;
   
   // accesseurs
   inline int getX(){return _x;}
@@ -29,6 +31,7 @@ class Shape{
   int _width, _height;
   //orientation
   int _orientation;
+  Color _color;
 };
 
 #endif

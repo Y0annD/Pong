@@ -6,6 +6,7 @@
 #include "SFML/Graphics.hpp"
 #include "Rectangle.h"
 #include "Circle.h"
+#include "Mur.h"
 
 class Window {
   private :
@@ -16,6 +17,7 @@ class Window {
     void moveAll(int dx, int dy);
     std::vector<Rectangle*> _rects;
     std::vector<Circle*> _circs;
+    std::vector<Mur*> _murs;
 
   public :
     
@@ -23,8 +25,9 @@ class Window {
                                          _win(new sf::RenderWindow(sf::VideoMode(_width, _height), _name)){} 
 
 
-   void addRect(Rectangle*);
+    void addRect(Rectangle*);
     void addCircle(Circle*);
+    void addMur(Mur*);
     ~Window(void);
     
     void display(void);
