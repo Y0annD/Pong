@@ -8,6 +8,7 @@
  ***********************/
 #include "Pong.h"
 #include "Window.h"
+#include "Mobile.h"
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Mur.h"
@@ -54,12 +55,63 @@ void Pong::drawAll(sf::RenderWindow *win) const{
  **/
 void Pong::execute(){
   while(win.isOpen()){
+    moveAll();
     drawAll(win.getWindow());
     win.display();
   }
   isRunning = true;
  }
 
+void Pong::moveAll(){
+  for(int i=0; i<_mobiles.size();i++){
+    _mobiles[i]->move();
+  }
+}
 
-void collision(){}
+/**
+ * Vérifie que deux objets n'entrent pas en collision
+ * @param obj: mobile pointer
+ * @param nx: futur x position
+ * @param ny: futur y position
+ * @return 0: no collision
+ *               1: side collision (left || right)
+ *               2: (top || bottom) colllision
+ **/
+int Pong::collision(Mobile * obj,int nx, int ny){
+  int result = 0;
+  /*int top = ny+obj.getHeight()/2;
+  int bot = ny-obj.getHeight()/2;
+  int right = nx + obj.getWidth()/2;
+  int left    = ny - obj.getWidth()/2;
+  for(int i=0; i<_walls.size();i++){
+    int wtop    = _walls[i].getY()+_walls[i].getHeight()/2;
+    int wbot    = _walls[i].getY()-_walls[i].getHeight()/2;
+    int wright = _walls[i].getX()+_walls[i].getWidth()/2;
+    int wleft    = _walls[i].getX()+_walls[i].getWidth()/2;
+
+    // side collision
+    // left collision
+    if(left < wright && left > wleft && top < wtop && bot > wbot){
+      result = 1;
+      break;
+    }
+    // right collision
+    if(right < wright && right > wleft && top < wtop && bot > wbot){
+      result = 1;
+      break;
+    }
+    // top collsision
+    if(top > wbot && top < wtop && bot < wbot && (right < wright || left > wleft)){
+      result = 2;
+      break;
+    }
+    // bottom collision
+    if(bot < wtop && bot > wtop && top > wbot && (right < wright || left > wleft)){
+      result = 2;
+      break;
+    }
+
+    }*/
+  return result;
+}
 
