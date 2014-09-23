@@ -17,7 +17,7 @@ class Shape{
   inline int getY(){return _y;}
   inline int getWidth(){return _width;}
   inline int getHeight(){return _height;}
-  inline int getOrientation(){return _orientation;}
+  inline double getOrientation(){return _orientation;}
 
   //mutateurs
   inline void setX(int x){_x = x;}
@@ -32,7 +32,7 @@ class Shape{
   // shape size
   int _width, _height;
   //orientation
-  int _orientation;
+  double _orientation;
   Color _color;
 };
 

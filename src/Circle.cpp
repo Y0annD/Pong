@@ -1,23 +1,27 @@
 /**********************
  * Fichier: Circle.cpp
- * Auteur: Yoann Diqu√©lou
+ * Auteur: Yoann DiquÈlou
  * Date: 01/05/2014
  * 
- * Classe d√©finissant un cercle
+ * Classe dÈfinissant un cercle
  ***********************/
 #include "Circle.h"
-
+#include <math.h>
+#include <iostream>
+#include <string>
+#define PI 3.1415
 /** 
-* M√©thode permettant de bouger le cercle  
-* @param dx: d√©callage en x
-* @param dy: d√©callage en y
+* MÈthode permettant de bouger le cercle  
 **/
 void Circle::move(){
-  _x++;
+  std::cout<<"Orientation: "<<_orientation<<std::endl;
+  double moveX = _speed * cos(PI*_orientation/180.0);
+  double moveY = _speed * sin(PI*_orientation/180.0);
+  std::cout<<"moveX: "<<moveX<<" moveY: "<<moveY<<std::endl;
 }
 
 /**
- * M√©thode permettant de dessiner un cercle
+ * MÈthode permettant de dessiner un cercle
  * @param win: pointeur vers la fenetre ou l'on doit afficher le cercle
  **/ 
 void Circle::draw(sf::RenderWindow *win) const {
@@ -25,6 +29,6 @@ void Circle::draw(sf::RenderWindow *win) const {
   int r,g,b;
   _color.getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));
-  shape.setPosition(_x,_y);
+  shape.setPosition(_x+_width/2,_y+_width/2);
   win->draw(shape);
 }

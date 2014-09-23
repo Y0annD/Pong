@@ -44,6 +44,3 @@ clean :
 
 run :
 	./$(TARGET)
-
-
-

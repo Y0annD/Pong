@@ -8,15 +8,13 @@
  ***********************/
 #include <iostream>
 #include "Window.h"
-#include "Rectangle.h"
-#include "Circle.h"
 
 using namespace std;
 
 /* Destructeur */
 Window::~Window(void) {
-  for(unsigned int i=0; i< _rects.size(); i++){
-      delete _rects[i];
+  for(unsigned int i=0; i< _triangles.size(); i++){
+     delete _triangles[i];
   }
   for(unsigned int i=0; i< _circs.size(); i++){
       delete _circs[i];
@@ -25,14 +23,21 @@ Window::~Window(void) {
 }
 
 /**
- * M√©thode qui dessine tous les √©l√©ments graphiques ajout√©s 
+ * MÈthode qui dessine tous les ÈlÈments graphiques ajoutÈs 
  * @param win: fenetre sur laquelle dessiner
  **/
 void Window::drawAll(sf::RenderWindow* win){
+  //  float timeDelta =  clock.restart().asSeconds();
+  // ellapsedTime += timeDelta;
+  // if(ellapsedTime>=1/60.0f){
+  //   moveAll();
+  //   ellapsedTime = 0.0f;
+  // }
+  
   /* Dessin des rectangles */
-  if(_rects.size()>0){
-    for(int i=0; i<(int)_rects.size(); i++){
-      _rects[i]->draw(win);
+  if(_triangles.size()>0){
+    for(int i=0; i<(int)_triangles.size(); i++){
+      _triangles[i]->draw(win);
     }
   }
   /* Dessin des cercles */
@@ -51,23 +56,23 @@ void Window::drawAll(sf::RenderWindow* win){
 }
 
 /**
- * M√©thode qui bouge tous les √©l√©ments
- * @param dx: d√©placement en x
- * @param dy: d√©placement en y
+ * MÈthode qui bouge tous les ÈlÈments
  **/ 
-void Window::moveAll(int dx, int dy){
-  for(int i=0; i<(int)_rects.size(); i++){
-    _rects.at(i)->move(dx, dy);
-    _circs.at(i)->move(dx,dy);
+void Window::moveAll(){
+  for(int i=0; i<(int)_triangles.size(); i++){
+    _triangles.at(i)->move();
+  }
+  for(int i=0; i<(int)_circs.size(); i++){
+    _circs.at(i)->move();
   }
 }
 
 /**
- * M√©thode qui ajoute un rectangle
+ * MÈthode qui ajoute un rectangle
  * @param rect: pointeur vers le rectangle √† ajouter
  **/ 
-void Window::addRect(Rectangle* rectangle){
-   _rects.push_back(rectangle);
+void Window::addTriangle(Triangle* tri){
+   _triangles.push_back(tri);
 }
 
 /**
@@ -87,16 +92,22 @@ void Window::addMur(Mur* mur){
 }
 
 /**
+ * MÈthode qui spÈcifie au contexte appelant si la 
+ * fenetre est ouverte
+ * @return: true- fenetre ouverte
+ *                false- fenetre fermee
+ **/
+bool Window::isOpen()const{
+  _win->clear(sf::Color(100, 100, 100));
+  return _win->isOpen();
+}
+
+/**
  * M√©thode qui affiche la fenetre
  **/ 
 void Window::display(void)
 {  
-  while (_win->isOpen())
-  {
-    _win->clear(sf::Color(100, 100, 100));
-    
-    // Dessiner ici les formes g√©om√©triques 
-    drawAll(_win);
+   
     _win->display();
 
     sf::Event event;
@@ -110,7 +121,7 @@ void Window::display(void)
         case sf::Event::KeyPressed:
              if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 	      cout<< "A" <<endl;
-	      moveAll(10,0);
+        //	      moveAll(10,0);
 	       
 	    }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
@@ -119,23 +130,25 @@ void Window::display(void)
 	     }
 
              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		moveAll(-10,0);
+               //		moveAll(-10,0);
 	     }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		moveAll(10,0);
+         //		moveAll(10,0);
 	     }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		moveAll(0,-10);
+         //		moveAll(0,-10);
 	     }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		moveAll(0,10);
+         moveAll();
 	     }
              break;
         default:
           break;
       }
     }
-  }
+  
 }
 
-
+sf::RenderWindow* Window::getWindow(void)const{
+  return _win;
+}

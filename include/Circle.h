@@ -3,21 +3,14 @@
 
 #include "SFML/Graphics.hpp"
 #include "Color.h"
+#include "Mobile.h"
 
-class Circle {
-  private:
-    /* Position */
-    int _x,_y;
-    /* Size */
-    int _radius;
-    
-    Color _color;
-    
+class Circle: public Mobile {
   public :
-    void move(int dx, int dy);
-    void draw(sf::RenderWindow *win) const;
+    void move();
+    void draw(sf::RenderWindow *) const;
     
-    Circle(int x, int y, int radius): _x(x), _y(y), _radius(radius), _color(Color(rand()%255, rand()%255, rand()%255)){}
-
+ Circle(int x, int y, int radius,int orientation,int speed): Mobile(x, y, radius, radius, orientation,  speed){}
+    ~Circle(){}
 };
 #endif
