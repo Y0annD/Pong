@@ -43,9 +43,9 @@ void  Pong::init(){
     for(int i = 0; i< 7; i++){
       _walls.push_back(new Mur(((WIDTH - 50)/7)*i+((WIDTH - 50)/7)/2+25,HEIGHT - 25/2,WIDTH/7,25,0,1));
       }*/
-  _walls.push_back(new Mur(WIDTH/2,25/2,WIDTH,25,0,1));
-_walls.push_back(new Mur(25/2,HEIGHT/2,25,HEIGHT,0,1));
-  _walls.push_back(new Mur(WIDTH /2,HEIGHT - 25/2,WIDTH,25,0,1));
+  _walls.push_back(new Mur(WIDTH/2,25/2,WIDTH,25,rand()%3-1,1));
+_walls.push_back(new Mur(25/2,HEIGHT/2,25,HEIGHT,rand()%3-1,1));
+  _walls.push_back(new Mur(WIDTH /2,HEIGHT - 25/2,WIDTH,25,rand()%3-1,1));
     _walls.push_back(new Mur(WIDTH - 25/2 ,HEIGHT/2,25,HEIGHT,0,1));
     _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
     _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
