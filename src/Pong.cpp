@@ -20,6 +20,15 @@
 //win.display();
 //return 0;
 //}
+Pong::~Pong(void){
+  for(unsigned int i=0; i< _walls.size(); i++){
+     delete _walls[i];
+  }
+  for(unsigned int i=0; i< _mobiles.size(); i++){
+      delete _mobiles[i];
+  }
+
+}
 
 void  Pong::init(){
   /*for(int i = 0; i< 5; i++){
@@ -39,7 +48,7 @@ _walls.push_back(new Mur(25/2,HEIGHT/2,25,HEIGHT,0,1));
   _walls.push_back(new Mur(WIDTH /2,HEIGHT - 25/2,WIDTH,25,0,1));
     _walls.push_back(new Mur(WIDTH - 25/2 ,HEIGHT/2,25,HEIGHT,0,1));
     _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
-    //_mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,0,0));
+    _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
   }
 
 void Pong::drawAll(sf::RenderWindow *win) const{

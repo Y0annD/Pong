@@ -18,6 +18,7 @@ class Pong{
  
  public:
  Pong(int width, int height):WIDTH(width),HEIGHT(height),isRunning(false),win(Window("Pong",WIDTH,HEIGHT)){}
+  ~Pong(void);
   void init();
   void execute();
   int collision(Mobile*);

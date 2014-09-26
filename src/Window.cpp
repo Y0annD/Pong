@@ -13,82 +13,7 @@ using namespace std;
 
 /* Destructeur */
 Window::~Window(void) {
-  for(unsigned int i=0; i< _triangles.size(); i++){
-     delete _triangles[i];
-  }
-  for(unsigned int i=0; i< _circs.size(); i++){
-      delete _circs[i];
-  }
   delete _win;
-}
-
-/**
- * Méthode qui dessine tous les éléments graphiques ajoutés 
- * @param win: fenetre sur laquelle dessiner
- **/
-void Window::drawAll(sf::RenderWindow* win){
-  //  float timeDelta =  clock.restart().asSeconds();
-  // ellapsedTime += timeDelta;
-  // if(ellapsedTime>=1/60.0f){
-  //   moveAll();
-  //   ellapsedTime = 0.0f;
-  // }
-  
-  /* Dessin des rectangles */
-  if(_triangles.size()>0){
-    for(int i=0; i<(int)_triangles.size(); i++){
-      _triangles[i]->draw(win);
-    }
-  }
-  /* Dessin des cercles */
-  if( _circs.size()>0){
-   for(int i=0; i<(int)_circs.size(); i++){
-     _circs[i]->draw(win);
-   }
-  }
-
-  if( _murs.size()>0){
-   for(int i=0; i<(int)_murs.size(); i++){
-     _murs[i]->draw(win);
-   }
-  }
-  
-}
-
-/**
- * Méthode qui bouge tous les éléments
- **/ 
-void Window::moveAll(){
-  for(int i=0; i<(int)_triangles.size(); i++){
-    _triangles.at(i)->move();
-  }
-  for(int i=0; i<(int)_circs.size(); i++){
-    _circs.at(i)->move();
-  }
-}
-
-/**
- * Méthode qui ajoute un rectangle
- * @param rect: pointeur vers le rectangle Ã  ajouter
- **/ 
-void Window::addTriangle(Triangle* tri){
-   _triangles.push_back(tri);
-}
-
-/**
- * MÃ©thode qui ajoute un cercle
- * @param circ: pointeur vers le cercle Ã  ajouter 
- **/ 
-void Window::addCircle(Circle* circle){
-  _circs.push_back(circle);
-}
-
-/**
- * Méthode qui ajoute un mur
- * @param mur: pointeur vers le mur à ajouter
- **/
-void Window::addMur(Mur* mur){
-  _murs.push_back(mur);
 }
 
 /**
@@ -139,7 +64,7 @@ void Window::display(void)
          //		moveAll(0,-10);
 	     }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-         moveAll();
+         //        moveAll();
 	     }
              break;
         default:

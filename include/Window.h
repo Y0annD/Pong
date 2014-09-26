@@ -15,10 +15,6 @@ class Window {
     int _width, _height;
     sf::RenderWindow *_win;
     void drawAll(sf::RenderWindow*);
-    void moveAll();
-    std::vector<Triangle*> _triangles;
-    std::vector<Circle*> _circs;
-    std::vector<Mur*> _murs;
     
     float ellapsedTime;
 
@@ -28,9 +24,6 @@ class Window {
       ellapsedTime(0.0f),_win(new sf::RenderWindow(sf::VideoMode(_width, _height), _name)){} 
 
     sf::RenderWindow* getWindow(void)const;
-    void addTriangle(Triangle*);
-    void addCircle(Circle*);
-    void addMur(Mur*);
     ~Window(void);
     bool isOpen(void)const;
     void display(void);
