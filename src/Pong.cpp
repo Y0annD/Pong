@@ -66,14 +66,25 @@ void Pong::drawAll(sf::RenderWindow *win) const{
  * Lance le jeu
  **/
 void Pong::execute(){
-  while(win.isOpen()){
-    moveAll();
-    drawAll(win.getWindow());
-    win.display();
+  isRunning = true;
+  float time = 0.0;
+  int fps = 0;
+  while(isRunning){
+    float timeDelta = clock.restart().asSeconds();
+    time += timeDelta;
+    if(time>=1/2 && fps==60){
+      moveAll();
+      drawAll(win.getWindow());
+      win.display();
+      time = 0.0;
+      fps=0;
+    }
+      fps++;
+      if(!win.isOpen())
+        isRunning = false;
     //    float time = win.getTime();
     //std::cout<<"Time: "<<time<<std::endl;
   }
-  isRunning = true;
  }
 
 void Pong::moveAll(){

@@ -11,6 +11,7 @@ class Mobile:public Forme{
   virtual void draw(sf::RenderWindow*)const{};
   void move();
   void switchSide(int);
+  void updateSpeed(int);
   ~Mobile(){}
 };
 

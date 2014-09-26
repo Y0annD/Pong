@@ -11,3 +11,7 @@ void Mur::draw(sf::RenderWindow *win)const{
   shape.setPosition((int)(_x-_width/2),(int)(_y-_height/2));
   win->draw(shape);
 }
+
+double Mur::getCoefficient()const{
+  return _coefficient;
+}

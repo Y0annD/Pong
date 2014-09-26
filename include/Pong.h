@@ -10,6 +10,7 @@ class Pong{
  private:
   int WIDTH;
   int HEIGHT;
+  sf::Clock clock;
   std::vector<Mobile*> _mobiles;
   std::vector<Mur*>     _walls;
   bool isRunning;

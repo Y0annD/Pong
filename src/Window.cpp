@@ -32,11 +32,10 @@ bool Window::isOpen()const{
  **/ 
 void Window::display(void)
 {  
-   
     _win->display();
-
+   _win->clear(sf::Color(100, 100, 100));
     sf::Event event;
-    if(_win->waitEvent(event)) 
+    if(_win->pollEvent(event)) 
     {
       switch (event.type) 
       {
