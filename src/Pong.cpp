@@ -61,8 +61,8 @@ void Pong::execute(){
     moveAll();
     drawAll(win.getWindow());
     win.display();
-    float time = win.getTime();
-    std::cout<<"Time: "<<time<<std::endl;
+    //    float time = win.getTime();
+    //std::cout<<"Time: "<<time<<std::endl;
   }
   isRunning = true;
  }

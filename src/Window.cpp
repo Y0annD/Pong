@@ -154,5 +154,6 @@ sf::RenderWindow* Window::getWindow(void)const{
 }
 
 float Window::getTime(void)const{
-  return _win->getFrameTime();
+  //  return _win->getFrameTime();
+  return 1;
 }
