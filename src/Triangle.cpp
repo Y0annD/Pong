@@ -19,7 +19,7 @@ void Triangle::move(){
  * @param win: pointeur vers la fenetre ou l'on doit afficher le cercle
  **/ 
 void Triangle::draw(sf::RenderWindow *win) const {
-  sf::CircleShape shape(_width, 3);
+  sf::CircleForme shape(_width, 3);
   int r,g,b;
   _color.getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));

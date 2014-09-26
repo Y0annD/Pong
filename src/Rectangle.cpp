@@ -27,7 +27,7 @@ void Rectangle::draw(sf::RenderWindow *win) const {
   int width=_width, height=_height;
   int r,g,b;
   colori.getRGB(r,g,b);
-  sf::RectangleShape shape(sf::Vector2f(width, height));
+  sf::RectangleForme shape(sf::Vector2f(width, height));
   shape.setFillColor(sf::Color(r,g,b));
   shape.setPosition(_x,_y);
   win->draw(shape);

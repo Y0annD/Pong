@@ -37,7 +37,7 @@ void Circle::move(){
  * @param win: pointeur vers la fenetre ou l'on doit afficher le cercle
  **/ 
 void Circle::draw(sf::RenderWindow *win) const {
-  sf::CircleShape shape(_width);
+  sf::CircleForme shape(_width);
   int r,g,b;
   _color.getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));
