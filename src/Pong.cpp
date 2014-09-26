@@ -131,6 +131,7 @@ int Pong::collision(Mobile * obj){
     if(left < wright && 
        (left >= wleft || left < 0) && top > wtop && bot < wbot){
       result = 2;
+      obj->updateSpeed(_walls[i]->getCoefficient());
       break;
     }
     // right collision
@@ -139,6 +140,7 @@ int Pong::collision(Mobile * obj){
        top > wtop && 
        bot < wbot){
       result = 1;
+      obj->updateSpeed(_walls[i]->getCoefficient());
       break;
     }
     // top collsision
@@ -148,6 +150,7 @@ int Pong::collision(Mobile * obj){
        bot > wbot && 
        (right <= wright && left >= wleft)){
       result = 3;
+      obj->updateSpeed(_walls[i]->getCoefficient());
       break;
     }
     // bottom collision
@@ -155,6 +158,7 @@ int Pong::collision(Mobile * obj){
        top<=wtop &&
        (left>=wleft && right<=wright)){
       result = 4;
+      obj->updateSpeed(_walls[i]->getCoefficient());
       break;
       }
 
