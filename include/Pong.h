@@ -15,13 +15,13 @@ class Pong{
   bool isRunning;
   Window win;
   void drawAll(sf::RenderWindow *win) const;
-  void moveAll();
  
  public:
  Pong(int width, int height):WIDTH(width),HEIGHT(height),isRunning(false),win(Window("Pong",WIDTH,HEIGHT)){}
   void init();
   void execute();
-  int collision(Mobile*,int, int);
+  int collision(Mobile*);
+  void moveAll(void);
 };
 
 #endif

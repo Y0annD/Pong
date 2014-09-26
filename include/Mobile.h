@@ -9,7 +9,8 @@ class Mobile:public Forme{
  public:
  Mobile(int x,int y, int width, int height, double orientation, int speed):Forme(x,y,width,height, orientation, Color(rand()%255, rand()%255, rand()%255)), _speed(speed){}
   virtual void draw(sf::RenderWindow*)const{};
-  virtual void move(){};
+  void move();
+  void switchSide(int);
   ~Mobile(){}
 };
 

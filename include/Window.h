@@ -34,7 +34,7 @@ class Window {
     ~Window(void);
     bool isOpen(void)const;
     void display(void);
-    
+    float getTime(void)const;
     
 
 };

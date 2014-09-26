@@ -26,9 +26,9 @@ void Circle::move(){
       if(_orientation >=360){
         _orientation -= 360; 
       }
-    }
+      }*/
   _x += moveX;
-  _y+=moveY;*/
+  _y += moveY;
   std::cout<<"moveX: "<<moveX<<" moveY: "<<moveY<<std::endl;
 }
 
@@ -37,10 +37,11 @@ void Circle::move(){
  * @param win: pointeur vers la fenetre ou l'on doit afficher le cercle
  **/ 
 void Circle::draw(sf::RenderWindow *win) const {
-  sf::CircleForme shape(_width);
+  sf::CircleShape shape(_width/2);
   int r,g,b;
   _color.getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));
-  shape.setPosition(_x+_width/2,_y+_width/2);
+  shape.setPosition((int)(_x-_width/2),(int)(_y-_width/2));
   win->draw(shape);
 }
+

@@ -152,3 +152,7 @@ void Window::display(void)
 sf::RenderWindow* Window::getWindow(void)const{
   return _win;
 }
+
+float Window::getTime(void)const{
+  return _win->getFrameTime();
+}
