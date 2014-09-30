@@ -13,7 +13,7 @@ class Mobile:public Forme{
   void moveY();
   void switchSide(int);
   void updateSpeed(int);
-  ~Mobile(){}
+  virtual ~Mobile(){}
 };
 
 #endif

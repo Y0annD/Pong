@@ -14,11 +14,14 @@ class Pong{
   std::vector<Mobile*> _mobiles;
   std::vector<Mur*>     _walls;
   bool isRunning;
+  bool pause;
   Window win;
   void drawAll(sf::RenderWindow *win) const;
+  void manageEvent();
+  
  
  public:
- Pong(int width, int height):WIDTH(width),HEIGHT(height),isRunning(false),win(Window("Pong",WIDTH,HEIGHT)){}
+ Pong(int width, int height):WIDTH(width),HEIGHT(height),isRunning(false),pause(false),win(Window("Pong",WIDTH,HEIGHT+40)){}
   ~Pong(void);
   void init();
   void execute();

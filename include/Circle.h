@@ -12,6 +12,6 @@ class Circle: public Mobile {
     void switchSide(int);
 
  Circle(int x, int y, int radius,int orientation,int speed): Mobile(x, y, radius, radius, orientation,  speed){}
-    ~Circle(){}
+    virtual   ~Circle(){}
 };
 #endif

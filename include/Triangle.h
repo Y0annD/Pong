@@ -11,6 +11,6 @@ class Triangle:public Mobile {
     void draw(sf::RenderWindow *win) const;
     
  Triangle(int x, int y, int width, int height ,int orientation,int speed): Mobile(x, y, width, height, orientation,  speed){}
-    ~Triangle(){}
+    virtual ~Triangle(){}
 };
 #endif

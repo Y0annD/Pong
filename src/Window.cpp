@@ -28,7 +28,7 @@ bool Window::isOpen()const{
 }
 
 /**
- * MÃ©thode qui affiche la fenetre
+ * Méthode qui affiche la fenetre
  **/ 
 void Window::display(void)
 {  
@@ -37,12 +37,13 @@ void Window::display(void)
     sf::Event event;
     if(_win->pollEvent(event)) 
     {
+      _event = event;
       switch (event.type) 
       {
         case sf::Event::Closed :
              _win->close();
              break;
-        case sf::Event::KeyPressed:
+             /*case sf::Event::KeyPressed:
              if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 	      cout<< "A" <<endl;
         //	      moveAll(10,0);
@@ -65,12 +66,20 @@ void Window::display(void)
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
          //        moveAll();
 	     }
-             break;
+       break;*/
         default:
           break;
       }
     }
   
+}
+
+/**
+ * Retourne les événements associés à la fenêtre
+ * @return: sf::Event
+ **/
+sf::Event Window::getEvent()const{
+  return _event;
 }
 
 sf::RenderWindow* Window::getWindow(void)const{

@@ -44,6 +44,8 @@ void  Pong::init(){
     for(int i = 0; i< 7; i++){
       _walls.push_back(new Mur(((WIDTH - 50)/7)*i+((WIDTH - 50)/7)/2+25,HEIGHT - 25/2,WIDTH/7,25,0,1));
     }
+
+    _walls.push_back(new Mur(150,(HEIGHT - 25)/3,25,HEIGHT/5,0,1));
     _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
     _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
   }
@@ -56,6 +58,18 @@ void Pong::drawAll(sf::RenderWindow *win) const{
     for(unsigned int i=0; i< _mobiles.size();i++){
       _mobiles[i]->draw(win);
     }
+    // interface de controle des evenements
+    sf::Texture texture;
+    if(!texture.loadFromFile("play-pause.png")){
+        std::cout<<"can't load plus.png"<<std::endl;
+    }else{
+      sf::Sprite sprite;
+      sprite.setPosition(20,HEIGHT );
+      sprite.setTexture(texture);
+      sprite.setScale(0.2f,0.2f);
+      
+      win->draw(sprite);
+    }
   }
 
 
@@ -67,6 +81,8 @@ void Pong::execute(){
   float time = 0.0;
   int fps = 0;
   while(isRunning){
+    manageEvent();
+    if(!pause){
     float timeDelta = clock.restart().asSeconds();
     time += timeDelta;
     if(time>=1/2 && fps==30){
@@ -77,15 +93,54 @@ void Pong::execute(){
       fps=0;
     }
       fps++;
-      if(!win.isOpen())
-        isRunning = false;
+    }else{
+      drawAll(win.getWindow());
+      win.display();
+    }
+    if(!win.isOpen())
+      isRunning = false;
     //    float time = win.getTime();
     //std::cout<<"Time: "<<time<<std::endl;
   }
  }
 
+/**
+ * Gestion des événements
+ * comportement différent en fonction des événements
+ **/
+void Pong::manageEvent(){
+  sf::Event event;
+  if(win.getWindow()->pollEvent(event)){
+    event = win.getEvent();
+    std::cout<<"Type: "<<event.type<<" | "<<sf::Event::MouseButtonPressed<<std::endl;
+  switch (event.type) 
+      {
+      case sf::Event::KeyPressed:
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+          _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
+	       
+	    }
+	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+         pause = !pause;
+		
+	     }
+       break;
+      case sf::Event::MouseButtonPressed:
+        std::cout<<"ButtonPressed: "<<event.mouseButton.x<<" | "<<event.mouseButton.y<<std::endl;
+        if(event.mouseButton.button == sf::Mouse::Left){
+          if(event.mouseButton.x>=20 && event.mouseButton.x<=60){
+            pause = !pause;
+             }
+        }
+        break;
+        default:
+          break;
+      }
+  }
+}
+
 void Pong::moveAll(){
-  for(int i=0; i<_mobiles.size();i++){
+  for(unsigned int i=0; i<_mobiles.size();i++){
     _mobiles[i]->moveX();
     int col = collision(_mobiles[i]);
     //    std::cout<<"Collision "<<col<<std::endl;
@@ -128,8 +183,7 @@ int Pong::collision(Mobile * obj){
   int bot = obj->getY() + height;
   int right = obj->getX() + width;
   int left    = obj->getX() - width;
-  double orientation = obj->getOrientation();
-  for(int i=0; i<_walls.size();i++){
+  for(unsigned int i=0; i<_walls.size();i++){
     int wtop    = _walls[i]->getY()-_walls[i]->getHeight()/2;
     int wbot    = _walls[i]->getY()+_walls[i]->getHeight()/2;
     int wright = _walls[i]->getX()+_walls[i]->getWidth()/2;
