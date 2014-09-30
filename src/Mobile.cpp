@@ -23,26 +23,18 @@ void Mobile::switchSide(int side ){
 
 
 /** 
-* Méthode permettant de bouger le mobile
+* Méthode permettant de bouger le mobile selon l'axe X
 **/
 
-void Mobile::move(){
-  std::cout<<"Orientation: "<<_orientation<<std::endl;
+void Mobile::moveX(){
   double moveX = _speed * cos(PI*_orientation/180.0);
-  double moveY = _speed * sin(PI*_orientation/180.0);
-  /*  int collision = _game.collision(this, getX()+moveX, getY()+moveY);
-  if(collision!=0){
-    if(collision==1){
-      _orientation = 180 - orientation;
-    }else if(collision==2){
-      _orientation += 270;
-      if(_orientation >=360){
-        _orientation -= 360; 
-      }
-      }*/
   _x += moveX;
+}
+
+void Mobile::moveY(){
+  std::cout<<"Orientation: "<<_orientation<<std::endl;
+  double moveY = _speed * sin(PI*_orientation/180.0);
   _y += moveY;
-  std::cout<<"moveX: "<<moveX<<" moveY: "<<moveY<<std::endl;
 }
 
 void Mobile::updateSpeed(int update){

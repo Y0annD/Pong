@@ -89,7 +89,7 @@ void Pong::execute(){
 
 void Pong::moveAll(){
   for(int i=0; i<_mobiles.size();i++){
-    _mobiles[i]->move();
+    _mobiles[i]->moveX();
     int col = collision(_mobiles[i]);
     std::cout<<"Collision "<<col<<std::endl;
     if(col!=0){
@@ -97,7 +97,17 @@ void Pong::moveAll(){
 
       /*      _mobiles[i]->setX(400);
               _mobiles[i]->setY(400);*/
-      _mobiles[i]->move();
+      _mobiles[i]->moveX();
+  }
+    _mobiles[i]->moveY();
+    col = collision(_mobiles[i]);
+    std::cout<<"Collision "<<col<<std::endl;
+    if(col!=0){
+      _mobiles[i]->switchSide(col);
+
+      /*      _mobiles[i]->setX(400);
+              _mobiles[i]->setY(400);*/
+      _mobiles[i]->moveY();
   }
 }
 }
