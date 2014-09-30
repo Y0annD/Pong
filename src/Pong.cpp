@@ -117,10 +117,8 @@ void Pong::moveAll(){
  * @param nx: futur x position
  * @param ny: futur y position
  * @return 0: no collision
- *               1: side collision right
- *               2: collision gauche
- *               3: collision haut
- *               4: collision bas
+ *               1: collision latérale
+ *               2: collision haut||bas
  **/
 int Pong::collision(Mobile * obj){
   int result = 0;
@@ -141,7 +139,7 @@ int Pong::collision(Mobile * obj){
     if(left <= wright && 
        left >= wleft && 
        top > wtop-height && bot < wbot+height){
-      result = 2;
+      result = 1;
       obj->updateSpeed(_walls[i]->getCoefficient());
       break;
       }
@@ -160,7 +158,7 @@ int Pong::collision(Mobile * obj){
        (top > wtop || top < 0) && 
        bot > wbot && 
        (right <= wright+width && left >= wleft-width)){
-      result = 3;
+      result = 2;
       obj->updateSpeed(_walls[i]->getCoefficient());
       break;
     }
@@ -168,7 +166,7 @@ int Pong::collision(Mobile * obj){
     if(bot>=wtop&&
        top<=wtop &&
        (left>=wleft-width && right<=wright+width)){
-      result = 4;
+      result = 2;
       obj->updateSpeed(_walls[i]->getCoefficient());
       break;
       }
