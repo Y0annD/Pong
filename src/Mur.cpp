@@ -12,6 +12,7 @@ void Mur::draw(sf::RenderWindow *win)const{
   win->draw(shape);
 }
 
-double Mur::getCoefficient()const{
+double Mur::collide(){
+  _color.setRGB(rand()%255,rand()%255, rand()%255);
   return _coefficient;
 }

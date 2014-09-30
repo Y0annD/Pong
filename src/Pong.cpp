@@ -69,7 +69,7 @@ void Pong::execute(){
   while(isRunning){
     float timeDelta = clock.restart().asSeconds();
     time += timeDelta;
-    if(time>=1/2 && fps==60){
+    if(time>=1/2 && fps==30){
       moveAll();
       drawAll(win.getWindow());
       win.display();
@@ -140,7 +140,7 @@ int Pong::collision(Mobile * obj){
        left >= wleft && 
        top > wtop-height && bot < wbot+height){
       result = 1;
-      obj->updateSpeed(_walls[i]->getCoefficient());
+      obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // right collision
@@ -149,7 +149,7 @@ int Pong::collision(Mobile * obj){
        top > wtop-height && 
        bot < wbot+height){
       result = 1;
-      obj->updateSpeed(_walls[i]->getCoefficient());
+      obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // top collsision
@@ -159,7 +159,7 @@ int Pong::collision(Mobile * obj){
        bot > wbot && 
        (right <= wright+width && left >= wleft-width)){
       result = 2;
-      obj->updateSpeed(_walls[i]->getCoefficient());
+      obj->updateSpeed(_walls[i]->collide());
       break;
     }
     // bottom collision
@@ -167,7 +167,7 @@ int Pong::collision(Mobile * obj){
        top<=wtop &&
        (left>=wleft-width && right<=wright+width)){
       result = 2;
-      obj->updateSpeed(_walls[i]->getCoefficient());
+      obj->updateSpeed(_walls[i]->collide());
       break;
       }
 

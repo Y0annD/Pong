@@ -37,9 +37,9 @@ class Forme{
 
  protected:
   // shape position
-  double _x, _y;
+  unsigned double _x, _y;
   // shape size
-  int _width, _height;
+  unsigned int _width, _height;
   //orientation
   double _orientation;
   Color _color;

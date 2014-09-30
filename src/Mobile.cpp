@@ -10,11 +10,11 @@
  * @param side: 4 - collision bas
  **/
 void Mobile::switchSide(int side ){
-  if(side == 1|| side == 2){
+  if(side == 1){
     _orientation = 180 - _orientation;
     if(_orientation < 0 )
       _orientation +=360;
-  }else if(side == 3||side == 4){
+  }else if(side == 2){
     _orientation = 360 - _orientation;
     if(_orientation <=0)
       _orientation +=360;
