@@ -7,7 +7,7 @@ class Mobile:public Forme{
   int _speed;
 
  public:
- Mobile(int x,int y, int width, int height, double orientation, int speed):Forme(x,y,width,height, orientation, Color(rand()%255, rand()%255, rand()%255)), _speed(speed){}
+ Mobile(int x,int y, int width, int height, double orientation, int speed):Forme(x,y,width,height, orientation,new Color(rand()%255, rand()%255, rand()%255)), _speed(speed){}
   virtual void draw(sf::RenderWindow*)const{};
   void moveX();
   void moveY();

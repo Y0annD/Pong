@@ -16,9 +16,10 @@ class Forme{
    * orientation: direction dans laquelle va se déplacer la forme en deg
    * color: couleur de la forme
    **/
- Forme(int x, int y, int width, int height, double orientation, Color color):_x(x), _y(y),
+ Forme(int x, int y, int width, int height, 
+       double orientation, Color *color):_x(x), _y(y),
     _width(width),_height(height), _orientation(orientation), _color(color){}
-
+  ~Forme(){delete _color;}
   void draw(sf::RenderWindow *win) const;
   
   // accesseurs
@@ -42,7 +43,7 @@ class Forme{
   unsigned int _width, _height;
   //orientation
   double _orientation;
-  Color _color;
+  Color *_color;
 };
 
 #endif

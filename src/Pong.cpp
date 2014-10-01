@@ -99,8 +99,6 @@ void Pong::execute(){
     }
     if(!win.isOpen())
       isRunning = false;
-    //    float time = win.getTime();
-    //std::cout<<"Time: "<<time<<std::endl;
   }
  }
 
@@ -112,7 +110,6 @@ void Pong::manageEvent(){
   sf::Event event;
   if(win.getWindow()->pollEvent(event)){
     event = win.getEvent();
-    std::cout<<"Type: "<<event.type<<" | "<<sf::Event::MouseButtonPressed<<std::endl;
   switch (event.type) 
       {
       case sf::Event::KeyPressed:
@@ -120,19 +117,15 @@ void Pong::manageEvent(){
           _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
 	       
 	    }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+    _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
+	       
+	    }
 	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
          pause = !pause;
 		
 	     }
        break;
-      case sf::Event::MouseButtonPressed:
-        std::cout<<"ButtonPressed: "<<event.mouseButton.x<<" | "<<event.mouseButton.y<<std::endl;
-        if(event.mouseButton.button == sf::Mouse::Left){
-          if(event.mouseButton.x>=20 && event.mouseButton.x<=60){
-            pause = !pause;
-             }
-        }
-        break;
         default:
           break;
       }
@@ -177,17 +170,17 @@ void Pong::moveAll(){
  **/
 int Pong::collision(Mobile * obj){
   int result = 0;
-  int height = obj->getHeight()/2;
-  int width = obj->getWidth()/2;
-  int top = obj->getY() - height;
-  int bot = obj->getY() + height;
-  int right = obj->getX() + width;
-  int left    = obj->getX() - width;
+  int height = (int)obj->getHeight()/2;
+  int width = (int)obj->getWidth()/2;
+  int top = (int)obj->getY() - height;
+  int bot = (int)obj->getY() + height;
+  int right = (int)obj->getX() + width;
+  int left    = (int)obj->getX() - width;
   for(unsigned int i=0; i<_walls.size();i++){
-    int wtop    = _walls[i]->getY()-_walls[i]->getHeight()/2;
-    int wbot    = _walls[i]->getY()+_walls[i]->getHeight()/2;
-    int wright = _walls[i]->getX()+_walls[i]->getWidth()/2;
-    int wleft    = _walls[i]->getX()-_walls[i]->getWidth()/2;
+    int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2;
+    int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2;
+    int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2;
+    int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2;
     // side collision
     // left collision
     if(left <= wright && 

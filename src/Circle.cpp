@@ -20,7 +20,7 @@
 void Circle::draw(sf::RenderWindow *win) const {
   sf::CircleShape shape(_width/2);
   int r,g,b;
-  _color.getRGB(r,g,b);
+  _color->getRGB(r,g,b);
   shape.setFillColor(sf::Color(r,g,b));
   shape.setPosition((int)(_x-_width/2),(int)(_y-_width/2));
   win->draw(shape);

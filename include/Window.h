@@ -1,11 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#include <vector>
 #include <SFML/Graphics.hpp>
-
-#include "Circle.h"
-#include "Triangle.h"
-#include "Mur.h"
 
 class Window {
   private :
