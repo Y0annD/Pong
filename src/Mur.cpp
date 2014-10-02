@@ -1,3 +1,11 @@
+/**********************
+ * Fichier: Mur.cpp
+ * Auteur: Yoann Diquélou
+ * Date: 23/09/2014
+ * 
+ * Fichier source de la classe Mur
+ * 
+ ***********************/
 #include "Mur.h"
 #include "Color.h"
 #include <string>

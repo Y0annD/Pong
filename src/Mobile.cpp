@@ -1,3 +1,11 @@
+/**********************
+ * Fichier: Mobile.cpp
+ * Auteur: Yoann Diquélou
+ * Date: 23/09/2014
+ * 
+ * Fichier source de la classe Mobile
+ * 
+ ***********************/
 #include "Mobile.h"
 #include <math.h>
 #define PI 3.1415

@@ -64,10 +64,6 @@ void  Pong::init(){
     for(unsigned int i = 0; i< n; i++){
       _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,HEIGHT - 25/2,WIDTH/n,25,0,1));
     }
-
-    // ajout d'un mur bidon
-    _walls.push_back(new Mur(150,(HEIGHT - 25)/3,25,HEIGHT/5,0,1));
-    
     // ajout de deux mobiles
     addCircle();
     addTriangle();
@@ -129,12 +125,15 @@ void Pong::execute(){
       // on regarde combien de temps c'est écoulé depuis le dernier appel de cette fonction
       float timeDelta = clock.restart().asSeconds();
       time += timeDelta;
-    if(time>1/60.0f){
-      moveAll();
-      time = 0.0f;
-    
+      // on fait en sorte d'avoir un mouvement des
+      // objets fluide à une fréquence proche de 
+      // celle d'un moniteur 60Hz
+      if(time>1/60.0f){
+        moveAll();
+        time = 0.0f;
+      }
     }
-    }
+    // dans tous les cas on raffraichi l'écran
     display();
   }
 }
@@ -143,69 +142,95 @@ void Pong::execute(){
  * comportement différent en fonction des événements
  **/
 void Pong::manageEvent(){
+  // on crée une variable de type sf::Event qui contiendra 
+  // les valeurs associés à l'événement
   sf::Event event;
+  // si on reçoit un événement, on le traite
   if(_win->pollEvent(event)){
   switch (event.type) 
       {
+        // cas où l'on demande de fermer la fenetre
       case sf::Event::Closed:
         _win->close();
         break;
+        // si une touche clavier est appuyé
       case sf::Event::KeyPressed:
+        
+        // si on presse la touche C, on crée un nouveau cercle
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
-          addCircle();
-          
+          addCircle();          
         }
+
+        // si on presse la touche T(riangle), on crée un nouveau triangle
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
-          addTriangle();
-          
+          addTriangle();          
         }
+
+        // si on presse la touche P(ause), on inverse l'état de Pause
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-          pause = !pause;
-          
+          pause = !pause;          
         }
+
         break;
+        // Si on appuye sur un bouton de la souris
       case sf::Event::MouseButtonPressed:
+        // si on appui sur le bouton gauche de la souris
         if(event.mouseButton.button == sf::Mouse::Left){
           unsigned int x = event.mouseButton.x;
           unsigned int y = event.mouseButton.y;
           if(y>HEIGHT){
+            // si on appuye au niveau de la touche
+            // play-pause, on complémete l'état pause
             if(x>=20 && x<=60)
               pause = !pause;
+            // si on appuye au niveau du bouton plus
+            // du cercle, on crée un nouveau cercle
             if(x>=150 && x<=185)
               addCircle();
+            // si on appuye au niveau du bouton plus
+            // du triangle, on crée un nouveau triangle
             if(x>=270 && x<=300)
               addTriangle();
           }            
         }
+        // si sa ne correspond à aucun cas précédent
       default:
         break;
       }
   }
 }
 
+
+/**
+ * moveAll
+ * permet de faire bouger tous les mobiles 
+ * associés au Pong
+ * mouvements en deux phases pour une
+ * gestion plus simple de la collision
+ **/
 void Pong::moveAll(){
+  // pour chaque mobile
   for(unsigned int i=0; i<_mobiles.size();i++){
+    // on bouge selon l'axe X
     _mobiles[i]->moveX();
+    // on vérifie si ce mobile est en collision avec un mur
     int col = collision(_mobiles[i]);
-    //    std::cout<<"Collision "<<col<<std::endl;
+    // si il y à collision, on modifie l'orientation du mobile
     if(col!=0){
       _mobiles[i]->switchSide(col);
-
-      /*      _mobiles[i]->setX(400);
-              _mobiles[i]->setY(400);*/
       _mobiles[i]->moveX();
-  }
+      _mobiles[i]->moveX();
+    }
+    // on bouge le mobile selon l'axe Y
     _mobiles[i]->moveY();
     col = collision(_mobiles[i]);
-    //    std::cout<<"Collision "<<col<<std::endl;
+    // si il y à collision, on modifie l'orientation du mobile
     if(col!=0){
       _mobiles[i]->switchSide(col);
-
-      /*      _mobiles[i]->setX(400);
-              _mobiles[i]->setY(400);*/
       _mobiles[i]->moveY();
+      _mobiles[i]->moveY();
+    }
   }
-}
 }
 
 
@@ -220,20 +245,26 @@ void Pong::moveAll(){
  *               2: collision haut||bas
  **/
 int Pong::collision(Mobile * obj){
+  // on initialise la variable de retour
   int result = 0;
-   int height = (int)obj->getHeight()/2;
-   int width = (int)obj->getWidth()/2;
-   int top = (int)obj->getY() - height;
-   int bot = (int)obj->getY() + height;
-   int right = (int)obj->getX() + width;
-   int left    = (int)obj->getX() - width;
+  // on récupére les dimensions du mobile
+  int height = (int)obj->getHeight()/2;
+  int width = (int)obj->getWidth()/2;
+  // on récupére les cotes du mobile
+  int top = (int)obj->getY() - height;
+  int bot = (int)obj->getY() + height;
+  int right = (int)obj->getX() + width;
+  int left    = (int)obj->getX() - width;
+  // on parcours chaque mur du Pong
   for(unsigned int i=0; i<_walls.size();i++){
+    // demi-dimensions du mur
     int wheight = _walls[i]->getHeight()/2;
     int wwidth = _walls[i]->getWidth()/2;
+    //cotes du mur
     int wtop    = (int)_walls[i]->getY()-wheight;
     int wbot    = (int)_walls[i]->getY()+wheight;
-     int wright = (int)_walls[i]->getX()+wwidth;
-     int wleft    = (int)_walls[i]->getX()-wwidth;
+    int wright = (int)_walls[i]->getX()+wwidth;
+    int wleft    = (int)_walls[i]->getX()-wwidth;
     // side collision
     // left collision
     if(left <= wright && 
@@ -242,16 +273,16 @@ int Pong::collision(Mobile * obj){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
-      }
+    }
     // right collision
-       if(right < wright && 
-          (right >= wleft || right>(int)WIDTH) && 
+    if(right < wright && 
+       (right >= wleft || right>(int)WIDTH) && 
        top > wtop-height && 
        bot < wbot+height){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
-      }
+    }
     // top collsision
 
     if(top < wbot && 
@@ -270,14 +301,23 @@ int Pong::collision(Mobile * obj){
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
-    }
+  }
   return result;
 }
 
+
+/**
+ * addCircle()
+ * ajoute un cercle au Pong
+ **/
 void Pong::addCircle(){
   _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
 }
 
+/**
+ * addTriangle()
+ * ajout un triangle au Pong
+ **/
 void Pong::addTriangle(){
   _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
 }
