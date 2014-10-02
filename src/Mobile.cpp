@@ -4,17 +4,16 @@
 
 /**
  * Change le sens de la balle en fonction de la collision
- * @param side: 1 - collision droite
- * @param side: 2 - collision gauche
- * @param side: 3 - collision haut
- * @param side: 4 - collision bas
+ * @param side: 1 - collision latérale
+ * @param side: 2 - collision haut-bas
+ * @param side: 3 - collision dans un coin
  **/
 void Mobile::switchSide(int side ){
-  if(side == 1){
+  if(side == 1|| side == 3){
     _orientation = 180 - _orientation;
     if(_orientation < 0 )
       _orientation +=360;
-  }else if(side == 2){
+  }if(side == 2 || side == 3){
     _orientation = 360 - _orientation;
     if(_orientation <=0)
       _orientation +=360;

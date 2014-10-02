@@ -1,4 +1,11 @@
-
+/**********************
+ * Fichier: Pong.h
+ * Auteur: Yoann Diquélou
+ * Date: 23/09/2014
+ * 
+ * Header de la classe Pong
+ * 
+ ***********************/
 
 #ifndef PONG
 #define PONG

@@ -1,47 +1,74 @@
-/**********************
+/*****************************************************
  * Fichier: Pong.cpp
  * Auteur: Yoann Diquélou
  * Date: 23/09/2014
  * 
  * Application SFML
+ * Pong est la classe qui gére le comportement du pong,
+ * elle à pour but de gérer les collisions, le mouvement 
+ * de chaque mobile et la gestion des événements 
+ * sur la fenetre.
  * 
- ***********************/
+ ****************************************************/
 #include "Pong.h"
 
 
-  /* Création d'une fenetre de 800x600 avec un nom */
-  //Window win("Pong", WIDTH,HEIGHT);
-  //init();
-    /* Affichage de la fenetre */
-//win.display();
-//return 0;
-//}
+/**
+ * Destructeur
+ * on détruit tous les pointeurs de 
+ * la classe
+ **/
 Pong::~Pong(void){
+  // destruction des murs
   for(unsigned int i=0; i< _walls.size(); i++){
      delete _walls[i];
   }
+
+  // destruction des mobiles
   for(unsigned int i=0; i< _mobiles.size(); i++){
       delete _mobiles[i];
   }
 
+  // destruction de la fenêtre
+  delete _win;
 }
 
+/**
+ * Initialisation du Pong
+ * 
+ * Initialise les objets nécessaire 
+ * au fonctionnement du Pong
+ **/
 void  Pong::init(){
+  // nombre de murs par côtés
+  // ne pas mettre ce nombre trop grand,
+  // sinon la collision sera défaillante
+  unsigned int n=5;
   
-  for(int i = 0; i< 5; i++){
-      _walls.push_back(new Mur(25/2,i*(HEIGHT/5)+(HEIGHT/5)/2,25,HEIGHT/5,0,1));
-    }
-    for(int i = 0; i< 5; i++){
-      _walls.push_back(new Mur(WIDTH - 25/2 ,i*(HEIGHT/5)+(HEIGHT/5)/2,25,HEIGHT/5,0,1));
-    }
-    for(int i = 0; i< 7; i++){
-      _walls.push_back(new Mur(((WIDTH - 50)/7)*i+((WIDTH - 50)/7)/2+25,25/2,WIDTH/7,25,0,1));
-    }
-    for(int i = 0; i< 7; i++){
-      _walls.push_back(new Mur(((WIDTH - 50)/7)*i+((WIDTH - 50)/7)/2+25,HEIGHT - 25/2,WIDTH/7,25,0,1));
+  // ajout des murs de gauche
+  for(unsigned int i = 0; i< n; i++){
+    _walls.push_back(new Mur(25/2,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,1));
+  }
+
+  // ajout des murs de droite
+  for(unsigned int i = 0; i< n; i++){
+    _walls.push_back(new Mur(WIDTH - 25/2 ,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,1));
     }
 
+  // ajout des mur du haut
+  for(unsigned int i = 0; i< n; i++){
+    _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,25/2,WIDTH/n,25,0,1));
+  }
+
+  // ajout des mur du bas
+    for(unsigned int i = 0; i< n; i++){
+      _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,HEIGHT - 25/2,WIDTH/n,25,0,1));
+    }
+
+    // ajout d'un mur bidon
     _walls.push_back(new Mur(150,(HEIGHT - 25)/3,25,HEIGHT/5,0,1));
+    
+    // ajout de deux mobiles
     addCircle();
     addTriangle();
   }
@@ -183,39 +210,41 @@ void Pong::moveAll(){
  **/
 int Pong::collision(Mobile * obj){
   int result = 0;
-  unsigned int height = (int)obj->getHeight()/2;
-  unsigned int width = (int)obj->getWidth()/2;
-  unsigned int top = (int)obj->getY() - height;
-  unsigned int bot = (int)obj->getY() + height;
-  unsigned int right = (int)obj->getX() + width;
-  unsigned int left    = (int)obj->getX() - width;
+   int height = (int)obj->getHeight()/2;
+   int width = (int)obj->getWidth()/2;
+   int top = (int)obj->getY() - height;
+   int bot = (int)obj->getY() + height;
+   int right = (int)obj->getX() + width;
+   int left    = (int)obj->getX() - width;
   for(unsigned int i=0; i<_walls.size();i++){
-    unsigned int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2-1;
-    unsigned int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2+1;
-    unsigned int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2+1;
-    unsigned int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2-1;
+    int wheight = _walls[i]->getHeight()/2;
+    int wwidth = _walls[i]->getWidth()/2;
+    int wtop    = (int)_walls[i]->getY()-wheight;
+    int wbot    = (int)_walls[i]->getY()+wheight;
+     int wright = (int)_walls[i]->getX()+wwidth;
+     int wleft    = (int)_walls[i]->getX()-wwidth;
     // side collision
     // left collision
     if(left <= wright && 
-       left > wleft && 
-       top >= wtop-height && bot <= wbot+height){
+       left >= wleft && 
+       top > wtop-height && bot < wbot+height){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // right collision
        if(right < wright && 
-       (right >= wleft || right>=WIDTH) && 
-       top >= wtop-height && 
-       bot <= wbot+height){
+          (right >= wleft || right>(int)WIDTH) && 
+       top > wtop-height && 
+       bot < wbot+height){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // top collsision
 
-    if(top <= wbot && 
-       (top > wtop || top < 1) && 
+    if(top < wbot && 
+       top > wtop && 
        bot > wbot && 
        (right <= wright+width && left >= wleft-width)){
       result = 2;
@@ -230,7 +259,6 @@ int Pong::collision(Mobile * obj){
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
-
     }
   return result;
 }
