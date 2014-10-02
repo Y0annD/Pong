@@ -25,7 +25,7 @@ $(TARGET) : $(OBJ)
 	@echo
 
 #-- source file header files dependencies --
-src/Appli.o : include/Window.h
+src/Appli.o : include/Pong.h
 
 
 #-- compiler command for every source file --

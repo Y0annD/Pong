@@ -7,7 +7,6 @@
  * 
  ***********************/
 #include "Pong.h"
-#include "Window.h"
 #include "Mobile.h"
 #include "Rectangle.h"
 #include "Circle.h"
@@ -46,30 +45,40 @@ void  Pong::init(){
     }
 
     _walls.push_back(new Mur(150,(HEIGHT - 25)/3,25,HEIGHT/5,0,1));
-    _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
-    _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
+    addCircle();
+    addTriangle();
   }
 
-void Pong::drawAll(sf::RenderWindow *win) const{
+void Pong::display() const{
     for(unsigned int i=0; i< _walls.size();i++){
-      _walls[i]->draw(win);
+      _walls[i]->draw(_win);
     }
 
     for(unsigned int i=0; i< _mobiles.size();i++){
-      _mobiles[i]->draw(win);
+      _mobiles[i]->draw(_win);
     }
     // interface de controle des evenements
     sf::Texture texture;
-    if(!texture.loadFromFile("play-pause.png")){
+    std::string imgName;
+    if(pause){
+      imgName = "paused.png";
+    }else{
+      imgName= "running.png";
+    }
+    if(!texture.loadFromFile(imgName)){
         std::cout<<"can't load plus.png"<<std::endl;
     }else{
       sf::Sprite sprite;
       sprite.setPosition(20,HEIGHT );
       sprite.setTexture(texture);
-      sprite.setScale(0.2f,0.2f);
+      //      sprite.setScale(0.2f,0.2f);
       
-      win->draw(sprite);
-    }
+      _win->draw(sprite);
+      }
+    
+    // affichage de la fenetre
+    _win->display();
+    _win->clear(sf::Color(100,100,100));
   }
 
 
@@ -77,57 +86,64 @@ void Pong::drawAll(sf::RenderWindow *win) const{
  * Lance le jeu
  **/
 void Pong::execute(){
-  isRunning = true;
   float time = 0.0;
   int fps = 0;
-  while(isRunning){
+  while(_win->isOpen()){
     manageEvent();
     if(!pause){
     float timeDelta = clock.restart().asSeconds();
     time += timeDelta;
-    if(time>=1/2 && fps==30){
+    if(time>=1/3&& fps==30){
       moveAll();
-      drawAll(win.getWindow());
-      win.display();
       time = 0.0;
       fps=0;
     }
       fps++;
-    }else{
-      drawAll(win.getWindow());
-      win.display();
     }
-    if(!win.isOpen())
-      isRunning = false;
+    display();
   }
- }
-
+}
 /**
  * Gestion des événements
  * comportement différent en fonction des événements
  **/
 void Pong::manageEvent(){
   sf::Event event;
-  if(win.getWindow()->pollEvent(event)){
-    event = win.getEvent();
+  if(_win->pollEvent(event)){
   switch (event.type) 
       {
+      case sf::Event::Closed:
+        _win->close();
+        break;
       case sf::Event::KeyPressed:
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-          _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
-	       
-	    }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+          addCircle();
+          
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
-    _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
-	       
-	    }
-	     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-         pause = !pause;
-		
-	     }
-       break;
-        default:
-          break;
+          addTriangle();
+          
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+          pause = !pause;
+          
+        }
+        break;
+      case sf::Event::MouseButtonPressed:
+        if(event.mouseButton.button == sf::Mouse::Left){
+          int x = event.mouseButton.x;
+          int y = event.mouseButton.y;
+          if(y>HEIGHT){
+            if(x>=20 && x<=60)
+              pause = !pause;
+            if(x>=150 && x<=185)
+              addCircle();
+            if(x>=270 && x<=300)
+              addTriangle();
+          }            
+        }
+      default:
+        break;
       }
   }
 }
@@ -177,31 +193,31 @@ int Pong::collision(Mobile * obj){
   int right = (int)obj->getX() + width;
   int left    = (int)obj->getX() - width;
   for(unsigned int i=0; i<_walls.size();i++){
-    int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2;
-    int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2;
-    int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2;
-    int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2;
+    int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2-1;
+    int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2+1;
+    int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2+1;
+    int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2-1;
     // side collision
     // left collision
     if(left <= wright && 
-       left >= wleft && 
-       top > wtop-height && bot < wbot+height){
+       left > wleft && 
+       top >= wtop-height && bot <= wbot+height){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // right collision
        if(right < wright && 
-       (right >= wleft || right>WIDTH) && 
-       top > wtop-height && 
-       bot < wbot+height){
+       (right >= wleft || right>=WIDTH) && 
+       top >= wtop-height && 
+       bot <= wbot+height){
       result = 1;
       obj->updateSpeed(_walls[i]->collide());
       break;
       }
     // top collsision
 
-    if(top < wbot && 
+    if(top <= wbot && 
        (top > wtop || top < 0) && 
        bot > wbot && 
        (right <= wright+width && left >= wleft-width)){
@@ -222,3 +238,10 @@ int Pong::collision(Mobile * obj){
   return result;
 }
 
+void Pong::addCircle(){
+  _mobiles.push_back(new Circle(WIDTH/2, HEIGHT/2, 25,rand()%360,3));
+}
+
+void Pong::addTriangle(){
+  _mobiles.push_back(new Triangle(WIDTH/3, HEIGHT/3, 25,25,rand()%360,1));
+}
