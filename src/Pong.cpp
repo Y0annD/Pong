@@ -73,56 +73,67 @@ void  Pong::init(){
     addTriangle();
   }
 
-void Pong::display() const{
-    for(unsigned int i=0; i< _walls.size();i++){
-      _walls[i]->draw(_win);
-    }
 
-    for(unsigned int i=0; i< _mobiles.size();i++){
-      _mobiles[i]->draw(_win);
-    }
-    // interface de controle des evenements
-    sf::Texture texture;
-    std::string imgName;
-    if(pause){
-      imgName = "paused.png";
-    }else{
-      imgName= "running.png";
-    }
-    if(!texture.loadFromFile(imgName)){
-        std::cout<<"can't load plus.png"<<std::endl;
-    }else{
-      sf::Sprite sprite;
-      sprite.setPosition(20,HEIGHT );
-      sprite.setTexture(texture);
-      //      sprite.setScale(0.2f,0.2f);
-      
-      _win->draw(sprite);
-      }
-    
-    // affichage de la fenetre
-    _win->display();
-    _win->clear(sf::Color(100,100,100));
+/**
+ * Affichage sur une fenetre du Pong 
+ * dans son état actuel
+ **/
+void Pong::display() const{
+  // on affiche tous les murs
+  for(unsigned int i=0; i< _walls.size();i++){
+    _walls[i]->draw(_win);
   }
+
+  // on affiche tous les mobiles
+  for(unsigned int i=0; i< _mobiles.size();i++){
+    _mobiles[i]->draw(_win);
+  }
+
+  // interface de controle des evenements
+  sf::Texture texture;
+  std::string imgName;
+  if(pause){
+    imgName = "paused.png";
+  }else{
+    imgName= "running.png";
+  }
+  if(!texture.loadFromFile(imgName)){
+    std::cout<<"can't load image"<<std::endl;
+  }else{
+    sf::Sprite sprite;
+    sprite.setPosition(20,HEIGHT );
+    sprite.setTexture(texture);
+    
+    _win->draw(sprite);
+  }
+  
+  // affichage de la fenetre
+  _win->display();
+  // nettoyage de la fenetre
+  _win->clear(sf::Color(100,100,100));
+}
 
 
 /**
  * Lance le jeu
  **/
 void Pong::execute(){
-  float time = 0.0;
-  int fps = 0;
+  // temps depuis la derniere actualisation
+  float time = 0.0f;
+  // tant que la fenetre est ouverte
   while(_win->isOpen()){
+    // on gére les événements
     manageEvent();
+    // si le jeu n'est pas en pause
     if(!pause){
-    float timeDelta = clock.restart().asSeconds();
-    time += timeDelta;
-    if(time>=1/3&& fps==30){
+      // on regarde combien de temps c'est écoulé depuis le dernier appel de cette fonction
+      float timeDelta = clock.restart().asSeconds();
+      time += timeDelta;
+    if(time>1/60.0f){
       moveAll();
-      time = 0.0;
-      fps=0;
+      time = 0.0f;
+    
     }
-      fps++;
     }
     display();
   }
