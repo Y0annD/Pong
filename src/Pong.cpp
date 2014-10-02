@@ -7,10 +7,7 @@
  * 
  ***********************/
 #include "Pong.h"
-#include "Mobile.h"
-#include "Rectangle.h"
-#include "Circle.h"
-#include "Mur.h"
+
 
   /* Création d'une fenetre de 800x600 avec un nom */
   //Window win("Pong", WIDTH,HEIGHT);
@@ -131,8 +128,8 @@ void Pong::manageEvent(){
         break;
       case sf::Event::MouseButtonPressed:
         if(event.mouseButton.button == sf::Mouse::Left){
-          int x = event.mouseButton.x;
-          int y = event.mouseButton.y;
+          unsigned int x = event.mouseButton.x;
+          unsigned int y = event.mouseButton.y;
           if(y>HEIGHT){
             if(x>=20 && x<=60)
               pause = !pause;
@@ -186,17 +183,17 @@ void Pong::moveAll(){
  **/
 int Pong::collision(Mobile * obj){
   int result = 0;
-  int height = (int)obj->getHeight()/2;
-  int width = (int)obj->getWidth()/2;
-  int top = (int)obj->getY() - height;
-  int bot = (int)obj->getY() + height;
-  int right = (int)obj->getX() + width;
-  int left    = (int)obj->getX() - width;
+  unsigned int height = (int)obj->getHeight()/2;
+  unsigned int width = (int)obj->getWidth()/2;
+  unsigned int top = (int)obj->getY() - height;
+  unsigned int bot = (int)obj->getY() + height;
+  unsigned int right = (int)obj->getX() + width;
+  unsigned int left    = (int)obj->getX() - width;
   for(unsigned int i=0; i<_walls.size();i++){
-    int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2-1;
-    int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2+1;
-    int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2+1;
-    int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2-1;
+    unsigned int wtop    = (int)_walls[i]->getY()-_walls[i]->getHeight()/2-1;
+    unsigned int wbot    = (int)_walls[i]->getY()+_walls[i]->getHeight()/2+1;
+    unsigned int wright = (int)_walls[i]->getX()+_walls[i]->getWidth()/2+1;
+    unsigned int wleft    = (int)_walls[i]->getX()-_walls[i]->getWidth()/2-1;
     // side collision
     // left collision
     if(left <= wright && 
@@ -218,7 +215,7 @@ int Pong::collision(Mobile * obj){
     // top collsision
 
     if(top <= wbot && 
-       (top > wtop || top < 0) && 
+       (top > wtop || top < 1) && 
        bot > wbot && 
        (right <= wright+width && left >= wleft-width)){
       result = 2;

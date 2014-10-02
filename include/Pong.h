@@ -4,7 +4,6 @@
 #define PONG
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <vector>
 #include "Mobile.h"
 #include "Mur.h"
@@ -15,6 +14,9 @@ class Pong{
  private:
   // dimensions du plateau de jeu, n'inclus pas l'interface de gestion
   unsigned int WIDTH, HEIGHT;
+  // le jeu est-il en pause?
+  bool pause;
+  // horloge pour la boucle d'affichage
   sf::Clock clock;
   // fenêtre SFML qui affiche le jeu
   sf::RenderWindow* _win;
@@ -22,8 +24,6 @@ class Pong{
   std::vector<Mobile*> _mobiles;
   // vecteur qui contient les murs
   std::vector<Mur*>     _walls;
-  // le jeu est-il en pause?
-  bool pause;
 
   // méthode de détection de collision
   int collision(Mobile*);
@@ -44,7 +44,7 @@ class Pong{
    * width : largeur du plateau de jeu
    * height: hauteur du plateau de jeu
    **/
- Pong(int width, int height):WIDTH(width),HEIGHT(height), pause(false),  _win(new sf::RenderWindow(sf::VideoMode(width, height+40),"Pong")){}
+ Pong(int width, int height):WIDTH(width),HEIGHT(height), pause(true),  _win(new sf::RenderWindow(sf::VideoMode(width, height+40),"Pong")){}
   // Destructeur
   ~Pong(void);
   // initialisation du jeu (création des murs et des mobiles)
