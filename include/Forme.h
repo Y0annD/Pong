@@ -28,7 +28,7 @@ class Forme{
     _width(width),_height(height), _orientation(orientation), _color(color){}
 
   // destructeur de l'objet, on supprime le pointeur sur la couleur
-  ~Forme(void){delete _color;}
+  ~Forme(void) {delete _color;}
 
   // méthode qui permet de dessiner la forme
   virtual void draw(sf::RenderWindow *win) const =0;

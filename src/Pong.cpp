@@ -47,22 +47,22 @@ void  Pong::init(){
   
   // ajout des murs de gauche
   for(unsigned int i = 0; i< n; i++){
-    _walls.push_back(new Mur(25/2,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,1));
+    _walls.push_back(new Mur(25/2,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,(int)(rand()%5)-2));
   }
 
   // ajout des murs de droite
   for(unsigned int i = 0; i< n; i++){
-    _walls.push_back(new Mur(WIDTH - 25/2 ,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,1));
+    _walls.push_back(new Mur(WIDTH - 25/2 ,i*(HEIGHT/n)+(HEIGHT/n)/2,25,HEIGHT/n,0,(int)(rand()%5)-2));
     }
 
   // ajout des mur du haut
   for(unsigned int i = 0; i< n; i++){
-    _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,25/2,WIDTH/n,25,0,1));
+    _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,25/2,WIDTH/n,25,0,(int)(rand()%5)-2));
   }
 
   // ajout des mur du bas
     for(unsigned int i = 0; i< n; i++){
-      _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,HEIGHT - 25/2,WIDTH/n,25,0,1));
+      _walls.push_back(new Mur(((WIDTH - 50)/n)*i+((WIDTH - 50)/n)/2+25,HEIGHT - 25/2,WIDTH/n,25,0,(int)(rand()%5)-2));
     }
     // ajout de deux mobiles
     addCircle();

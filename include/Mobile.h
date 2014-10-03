@@ -24,6 +24,7 @@ class Mobile:public Forme{
  public:
   // Constructeur du mobile
  Mobile(int x,int y, int width, int height, double orientation, int speed):Forme(x,y,width,height, orientation,new Color(rand()%255, rand()%255, rand()%255)), _speed(speed){}
+
   // méthode qui affiche un mobile
   virtual void draw(sf::RenderWindow*)const =0;
   // déplacement selon X du mobile

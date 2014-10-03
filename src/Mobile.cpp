@@ -14,14 +14,13 @@
  * Change le sens de la balle en fonction de la collision
  * @param side: 1 - collision latérale
  * @param side: 2 - collision haut-bas
- * @param side: 3 - collision dans un coin
  **/
 void Mobile::switchSide(int side ){
-  if(side == 1|| side == 3){
+  if(side == 1){
     _orientation = 180 - _orientation;
     if(_orientation < 0 )
       _orientation +=360;
-  }if(side == 2 || side == 3){
+  }else if(side == 2){
     _orientation = 360 - _orientation;
     if(_orientation <=0)
       _orientation +=360;
@@ -67,8 +66,8 @@ void Mobile::updateSpeed(int update){
   // on incrémente la vitesse
   _speed += update;
   // si la vitesse est nulle, on la met à 1
-  if(_speed==0)
-    _speed++;
+  if(_speed<=0)
+    _speed=1;
   // si la vitesse est supérieure à 5, on la fixe à 5
   if(_speed>5)
     _speed=5;
